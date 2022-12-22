@@ -55,7 +55,7 @@ void data_write(staff& load)
     std::ofstream out("statement.bin", std::ios::binary | std::ios::app);
     if (out.is_open())
     {
-        std::cout << load.name << " " << load.paymentDate << " " << load.sum << std::endl;
+        //std::cout << load.name << " " << load.paymentDate << " " << load.sum << std::endl;
         int len = load.name.length();
         out.write((char*)&len, sizeof(len));
         out.write(load.name.c_str(), len);
@@ -82,7 +82,7 @@ void data_read()
         while (!in.eof())
         {
             
-            std::cout << show.name << " " << show.paymentDate << " " << show.sum << std::endl;
+            //std::cout << show.name << " " << show.paymentDate << " " << show.sum << std::endl;
             int len;
             in.read((char*)&len, sizeof(len));
             show.name.resize(len);
@@ -92,7 +92,7 @@ void data_read()
             in.read((char*)show.paymentDate.c_str(), len);
             in.read((char*)&show.sum, sizeof(show.sum));
             std::cout << show.name << " " << show.paymentDate << " " << show.sum << std::endl;
-
+            
         }
         in.close();
     }
@@ -100,5 +100,5 @@ void data_read()
     {
         std::cerr << "Error! Statement not found!" << std::endl;
     }
-    
+              
 }
