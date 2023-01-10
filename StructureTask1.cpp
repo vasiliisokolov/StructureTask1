@@ -6,14 +6,14 @@
 
 struct staff
 {
-    std::string name = "unknown";
-    std::string paymentDate = "12.12.12";
+    std::string name = "";
+    std::string paymentDate = "";
     int sum = 0;
 };
 
 void init_staf(staff&, std::string&);
 void data_write(staff&);
-void data_read();
+void data_read(std::vector<staff>&);
 
 int main()
 {
@@ -39,7 +39,12 @@ int main()
     }
     else if (control == 2)
     {
-        data_read();
+        std::vector<staff> vec;
+        data_read(vec);
+        for (int i = 0; i < vec.size(); i++)
+        {
+            std::cout << vec[i].name << " " << vec[i].paymentDate << " " << vec[i].sum << std::endl;
+        }
     }
 }
 
@@ -72,16 +77,16 @@ void data_write(staff& load)
     }
 }
 
-void data_read()
+void data_read(std::vector<staff>& vec)
 {
     
     std::ifstream in("statement.bin", std::ios::binary);
     if (in.is_open())
     {
-        staff show;
+        
         while (!in.eof())
         {
-            
+            staff show;
             //std::cout << show.name << " " << show.paymentDate << " " << show.sum << std::endl;
             int len;
             in.read((char*)&len, sizeof(len));
@@ -91,7 +96,9 @@ void data_read()
             show.paymentDate.resize(len);
             in.read((char*)show.paymentDate.c_str(), len);
             in.read((char*)&show.sum, sizeof(show.sum));
-            std::cout << show.name << " " << show.paymentDate << " " << show.sum << std::endl;
+            if (show.sum == 0) break;
+            vec.push_back(show);
+            //std::cout << show.name << " " << show.paymentDate << " " << show.sum << std::endl;
             
         }
         in.close();
